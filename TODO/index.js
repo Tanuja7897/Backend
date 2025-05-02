@@ -31,8 +31,10 @@ app.post('/todo' , (req, res) =>{
 
 app.delete('/todo/:id' , (req,res)=>{
     try{
-       
-        todo.splice(Number(req.params.id)+1 , 1)
+        //prefer
+        todo = todo.filter(todo => todo.id != req.params.id);
+        //or use this 
+        //todo.spilce(Number(req.param.id)-1 , 1);
         return res.status(200).json({"message" : "deleted successfully"})
     }catch(err){
         return res.status(500).json({"message" : "Please try agagin"})
@@ -41,8 +43,11 @@ app.delete('/todo/:id' , (req,res)=>{
 
 app.put('/todo/:id' , (req , res)=>{
     try{
-       todo.splice(Number(req.params.id)+1 , 1)
-        return res.status(200).json({"message" : "deleted successfully"})
+        // const idx  = req.params.id ;
+        // console.log(todo[Number(idx)])
+        const idx = todo.findIndex(todo => todo.id == req.params.id)
+        todo[idx] = {...todo[idx] , ...req.body}
+        return res.status(200).json({"message" : "updated successfully"})
     }catch(err){
         return res.status(500).json({"message" : "Please try agagin"})
     }
