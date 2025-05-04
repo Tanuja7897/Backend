@@ -1,6 +1,10 @@
+const { isUtf8 } = require('buffer');
 const express = require('express');
 const app = express();
 app.use(express.json());
+const fs  = require("fs");
+const { dirname } = require('path');
+let path = __dirname+"/todo.json"
 //temp db
 let todo = []
 
@@ -12,7 +16,10 @@ app.get('/todo' , (req , res)=>{
     //we can use map function also but this also works kyoki hmne pura array hi print krva liya h 
     //when we use map funtion then output indivisual {} obj ayega
     try{
-        return res.status(200).json(todo);
+        fs.readFile(path, {encoding : "utf-8"},(err , todo)=>{
+            todo = todo ? JSON.parse(todo) : []
+            return res.status(200).json({todo : todo}); //json.parse because we are sending data in form of JSON, not string
+        })
     }catch(err){
         return res.status(500).json({"message" : "Please try again"});
     }
@@ -21,22 +28,43 @@ app.get('/todo' , (req , res)=>{
 
 app.post('/todo' , (req, res) =>{
     try{
-        console.log(req.body)
-        todo.push({...req.body , ischecked : false , id : todo.length + 1})
-        return res.status(200).json({"status" : "done"})
-
+        fs.readFile(path , {encoding : "utf-8"} , (err , todo)=>{
+            todo = todo ? JSON.parse(todo) : []
+            todo.push({...req.body , ischecked : false , id : todo.length + 1})
+            fs.writeFile(path , JSON.stringify(todo) , {encoding : "utf-8"} , (err)=>{
+                if(err)
+                {
+                    return res.status(500).json({"message" : "Please try again"});   
+                }
+                else{
+                    return res.status(200).json({"status" : "done"})
+                }
+            })
+    })
     }catch(err){
-        return res.status(500).json({"message" : "Please try again"});    
+        return res.status(500).json({"message" : "Please try again"});     
     }
+    
 })
 
 app.delete('/todo/:id' , (req,res)=>{
     try{
-        //prefer
-        todo = todo.filter(todo => todo.id != req.params.id);
-        //or use this 
-        //todo.spilce(Number(req.param.id)-1 , 1); not good one because id can be anything
-        return res.status(200).json({"message" : "deleted successfully"})
+            fs.readFile(path , {encoding : "utf-8"} , (err , todo)=>{
+            //prefer
+            todo = todo ? JSON.parse(todo) : []
+            filtertodo = todo.filter(todo => todo.id != req.params.id);
+            //or use this 
+            //todo.spilce(Number(req.param.id)-1 , 1); not good one because id can be anything
+            fs.writeFile(path , JSON.stringify(filtertodo) , {encoding : "utf-8"} , (err)=>{
+                if(err)
+                {
+                    return res.status(500).json({"message" : "Please try again"});   
+                }
+                else{
+                    return res.status(200).json({"status" : "done"})
+                }
+            })
+        })
     }catch(err){
         return res.status(500).json({"message" : "Please try agagin"})
     }
@@ -44,11 +72,22 @@ app.delete('/todo/:id' , (req,res)=>{
 
 app.put('/todo/:id' , (req , res)=>{
     try{
-        // const idx  = req.params.id ;
-        // console.log(todo[Number(idx)])
-        const idx = todo.findIndex(todo => todo.id == req.params.id)
-        todo[idx] = {...todo[idx] , ...req.body}
-        return res.status(200).json({"message" : "updated successfully"})
+        fs.readFile(path , {encoding : "utf-8"} , (err , todo)=>{
+            todo = todo ? JSON.parse(todo) : []
+            // const idx  = req.params.id ;
+            // console.log(todo[Number(idx)])
+            const idx = todo.findIndex(todo => todo.id == req.params.id)
+            todo[idx] = {...todo[idx] , ...req.body}
+            fs.writeFile(path , JSON.stringify(todo) , {encoding : "utf-8"} , (err)=>{
+                if(err)
+                {
+                    return res.status(500).json({"message" : "Please try again"});   
+                }
+                else{
+                    return res.status(200).json({"status" : "done"})
+                }
+            })
+        })
     }catch(err){
         return res.status(500).json({"message" : "Please try agagin"})
     }
