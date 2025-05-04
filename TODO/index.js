@@ -21,6 +21,7 @@ app.get('/todo' , (req , res)=>{
 
 app.post('/todo' , (req, res) =>{
     try{
+        console.log(req.body)
         todo.push({...req.body , ischecked : false , id : todo.length + 1})
         return res.status(200).json({"status" : "done"})
 
