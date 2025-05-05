@@ -15,13 +15,7 @@ app.get("/blogs" , (req,res)=>{
     return res.status(200).json({publicBlog});
 })
 
-app.patch("/blogs/:id" , (req,res)=>{
-    let {id} = req.params
-    let idx = blogs.findIndex( blog => blog.id == id)
-    console.log(idx)
-    blogs[idx] = {...blogs[idx] , ...req.body}
-    return res.status(200).json({"message" : "Blog updated successfully"})
-})
+
 
 //getting blogs throght id
 app.get("/blogs/:id" , (req,res)=>{
