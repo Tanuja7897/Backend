@@ -3,10 +3,7 @@ const app = express()
 app.use(express.json())
 let blogs = []
 
-app.post("/blogs" , (req,res)=>{
-    blogs.push({...req.body , id : blogs.length + 1});
-    return res.status(200).json({"message" : "created successfully"})
-})
+
 
 //get if only draft == false
 app.get("/blogs" , (req,res)=>{
