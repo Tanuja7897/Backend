@@ -56,10 +56,6 @@ app.delete("/blogs/:id" , (req,res)=>{
     
 })
 
-
-
-
-let users = []
 app.post("/users" ,async (req,res)=>{
     let {name , email , password} = req.body
     try{
@@ -70,7 +66,7 @@ app.post("/users" ,async (req,res)=>{
                 message : "please try again and ensure to enter all required fields! "
             })
         }
-        //drawing error in new way
+        //drawing error in new way finding from db 
         const finduser = await User.findOne({email})
         if(finduser){
             return res.status(400).json({
@@ -95,12 +91,13 @@ app.post("/users" ,async (req,res)=>{
     }
 })
 
-app.get("/users" , (req , res)=>{
+app.get("/users" , async(req , res)=>{
     try{
+        const users = await User.find({}) //all users 
         res.status(200).json({
-            success : true ,
-            message : "users retrived successfully",
-            users :{users}
+            success : true,
+            message : "User fetched successfully",
+            users
         })
     }catch(err){
         res.status(500).json({
@@ -110,10 +107,15 @@ app.get("/users" , (req , res)=>{
     }
 })
 
-app.get("/users/:id" , (req , res)=>{
+app.get("/users/:id" , async(req , res)=>{
     try{
-        let user = users.filter(user => user.id == req.params.id)
-        if(!user.length){
+        let user = await User.findById(req.params.id);
+        //can use also 
+        //let user = await User.findOne({id = id})  first id is db id and second id is req se aai id
+        //two things 
+        //1. id = output as only stirng format so we should use this only
+        //2. _id = output as object
+        if(!user){
             return res.status(500).json({
                 success : false ,
                 message : "users not found",
@@ -132,10 +134,11 @@ app.get("/users/:id" , (req , res)=>{
     }
 })
 
-app.patch("/users/:id" , (req , res)=>{
-    let idx = users.findIndex(user => user.id == req.params.id)
+app.patch("/users/:id" , async(req , res)=>{
+    
     try{
-        users[idx] = {...users[idx], ...req.body}
+        let {name , password , email} = req.body;
+        await User.findByIdAndUpdate(req.params.id , {name , password , email}) //of{id : id} because key-val is same can use this also
         return res.status(200).json({
             success : true ,
             message : "updated successfully"
@@ -148,9 +151,9 @@ app.patch("/users/:id" , (req , res)=>{
     }
 })
 
-app.delete("/users/:id" , (req , res)=>{
+app.delete("/users/:id" , async(req , res)=>{
     try{
-        users = users.filter(user => user.id!=req.params.id)
+        await User.findByIdAndDelete(req.params.id)
         return res.status(200).json({
             success : true,
             message : "deletd successfully"
