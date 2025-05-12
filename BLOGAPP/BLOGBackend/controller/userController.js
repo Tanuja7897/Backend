@@ -1,62 +1,5 @@
-const express = require("express")
-const app = express()
-app.use(express.json())
-const cors = require("cors")
-const mongoose = require("mongoose");
-app.use(cors())
-async function DbConnect(){
-    try{
-        await mongoose.connect("mongodb+srv://tanuja7897:5kqS7FI0cPzAtIcQ@cluster0.qzpiim2.mongodb.net/BlogDatabase")
-        console.log("DB connected successfully")
-    }catch(err){
-        console.log("db connection failed");
-    }
-}
-
-const UserSchema = new mongoose.Schema({
-    name : String , 
-    email : {
-        type : String,
-        unique : true
-    } ,
-    password : String     
-})
-
-const User = mongoose.model("User" , UserSchema);
-
-let blogs = []
-
-app.post("/blogs" , (req,res)=>{
-    blogs.push({...req.body , id : blogs.length + 1});
-    return res.status(200).json({"message" : "created successfully"})
-})
-
-//get if only draft == false
-app.get("/blogs" , (req,res)=>{
-    //showing only draft == false blogs means they are public
-    let publicBlog = blogs.filter(blog => blog.draft == false)
-    return res.status(200).json({publicBlog});
-})
-
-app.patch("/blogs/:id" , (req,res)=>{
-    let {id} = req.params
-    let idx = blogs.findIndex( blog => blog.id == id)
-    console.log(idx)
-    blogs[idx] = {...blogs[idx] , ...req.body}
-    return res.status(200).json({"message" : "Blog updated successfully"})
-})
-
-//getting blogs throght id
-app.get("/blogs/:id" , (req,res)=>{
-    let publicBlog = blogs.filter(blog => blog.id == req.params.id)
-    return res.status(200).json({publicBlog});
-})
-
-app.delete("/blogs/:id" , (req,res)=>{
-    
-})
-
-app.post("/users" ,async (req,res)=>{
+let User = require("..models/user")
+async function createUser(req,res){
     let {name , email , password} = req.body
     try{
       
@@ -89,9 +32,9 @@ app.post("/users" ,async (req,res)=>{
             error : err.message
         })
     }
-})
+}
 
-app.get("/users" , async(req , res)=>{
+async function getAllUser(req , res){
     try{
         const users = await User.find({}) //all users 
         res.status(200).json({
@@ -105,9 +48,9 @@ app.get("/users" , async(req , res)=>{
             message :"Error Occured while retriving users"
         })   
     }
-})
+}
 
-app.get("/users/:id" , async(req , res)=>{
+async function getById(req , res){
     try{
         let user = await User.findById(req.params.id);
         //can use also 
@@ -132,9 +75,9 @@ app.get("/users/:id" , async(req , res)=>{
             message :"Error Occured while retriving users by id"
         })   
     }
-})
+}
 
-app.patch("/users/:id" , async(req , res)=>{
+async function update(req , res){
     
     try{
         let {name , password , email} = req.body;
@@ -149,9 +92,9 @@ app.patch("/users/:id" , async(req , res)=>{
             message : "error occur while updating user details"
         })
     }
-})
+}
 
-app.delete("/users/:id" , async(req , res)=>{
+async function deleteUser(req , res){
     try{
         await User.findByIdAndDelete(req.params.id)
         return res.status(200).json({
@@ -164,8 +107,5 @@ app.delete("/users/:id" , async(req , res)=>{
             message : "error occur while deleting the user"
         })
     }
-})
-app.listen(3000 , ()=>{
-    console.log("server started")
-    DbConnect();
-})
+}
+module.exports = {createUser  , getAllUser , getById , update , deleteUser};
