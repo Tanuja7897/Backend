@@ -1,4 +1,5 @@
 //we do not write everything(db , user) i single file instead we use mvc structre
+
 //MVC Structure
 // M , V , C are three components/folder of MVC
 // M - Model: Represents the data and business logic //all db logic(schema and models)
