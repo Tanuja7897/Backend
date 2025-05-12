@@ -29,7 +29,6 @@
 
 // C - Controller: Handles the user input and updates the model
 
-
 // More 
 // config - used to store configuration data
 //routes - used to define the routes of the application
