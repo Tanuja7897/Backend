@@ -14,7 +14,14 @@ const BlogSchema = new mongoose.Schema(
         draft :{
             type :Boolean,   //2 field bnegi created at and updated at in database automatically
             default : false
-        } 
+        } ,
+        creator:{ 
+            //creator will be user
+            //connection ..
+            type : mongoose.Schema.Types.ObjectId,
+            ref : User, //refresces to User collection
+            required : true
+        }
     },
     {
         timestamps:true
