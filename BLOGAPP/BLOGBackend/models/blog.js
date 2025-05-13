@@ -7,9 +7,12 @@ const BlogSchema = new mongoose.Schema(
             trim : true , //validation  remove leading and trealing whitespace
             require : true
         }, 
-        description : String ,
+        description : {
+            type : String ,
+            require : true
+        },
         draft :{
-            type :Boolean,
+            type :Boolean,   //2 field bnegi created at and updated at in database automatically
             default : false
         } 
     },
@@ -20,4 +23,4 @@ const BlogSchema = new mongoose.Schema(
 
 const Blog = mongoose.model("Blog" , BlogSchema);
 
-module.export = Blog ;
+module.exports = Blog ;

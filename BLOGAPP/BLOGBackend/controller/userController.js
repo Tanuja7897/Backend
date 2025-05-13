@@ -1,4 +1,4 @@
-let User = require("..models/user")
+let User = require("../models/user")
 async function createUser(req,res){
     let {name , email , password} = req.body
     try{
