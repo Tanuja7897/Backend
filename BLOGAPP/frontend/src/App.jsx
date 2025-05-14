@@ -25,17 +25,7 @@ function App() {
     let res = await data.json()
     alert(res.message);
   }
-  async function handleBlog(){
-    let data = await fetch('http://localhost:3000/api/v1/blogs', {
-      method: 'GET',
-      headers: {
-        "Content-Type": "application/json"
-      }
-    });
-    let res = await data.json();
-    setBlog(res);
-    console.log(res);
-  }
+
   useEffect(()=>{
     handleBlog()
   },[])
