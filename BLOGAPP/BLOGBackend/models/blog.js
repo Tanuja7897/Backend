@@ -19,7 +19,7 @@ const BlogSchema = new mongoose.Schema(
             //creator will be user
             //connection ..
             type : mongoose.Schema.Types.ObjectId,
-            ref : User, //refresces to User collection
+            ref : "User", //refresces to User collection
             required : true
         }
     },

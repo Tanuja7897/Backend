@@ -11,7 +11,7 @@ const UserSchema = new mongoose.Schema({
     blogs : [{
         //not necessary because some user without login read .
         type : mongoose.Schema.Types.ObjectId,
-        ref : Blog,
+        ref : "Blog",
     }]   
 })
 

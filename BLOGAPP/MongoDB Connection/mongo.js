@@ -12,4 +12,9 @@
         // }
 
 //type -> mongoose.Schema.Types.ObjectId, = _id in db
-//steps -> mongoose se Schema bna -> schema se model -> model ke and Tyep = _id hoga __unique refrence
+//steps -> mongoose se Schema bna -> schema se model -> model ke andr Type = _id hoga __unique refrence
+
+//MONGODB operators 
+//On array 
+//$push -> append specified value in array
+//syntax -> $push : {blogs : blog._id}

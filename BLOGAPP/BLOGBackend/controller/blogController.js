@@ -1,11 +1,19 @@
-let Blog = require("../models/blog")
+let Blog = require("../models/blog");
+const User = require("../models/user");
 async function createBlog(req , res){
     try{
         //if draft == true means it is private to author
-        const {title , description ,draft} = req.body ;
+        //creator will be id only not a name 
+        //we check that creator's id exist or not
+        const {title , description ,draft , creator} = req.body ;
         if(!title || !description)
             return res.status(400).json({"message" : "please fill all required fields"})
-        let blog = await Blog.create({title , description , draft})
+        const findUser = await User.findById(creator)
+        if(!findUser)
+            return res.status(400).json({"message" : "User does not exist please signin"})
+        let blog = await Blog.create({title , description , draft,creator})
+        //user ki profile me bhi update krna h ki usne blog create kiya h
+        await User.findByIdAndUpdate(creator,{$push : {blogs : blog._id}})
         return res.status(200).json({"message" : "created successfully"})
     }catch(err){
         return res.status(500).json({
