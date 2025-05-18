@@ -22,3 +22,19 @@
 //await bcrypt.hash(password , 10)
 //10 is salt
 //salt is used to tell -> how many times we hash the password
+
+//checking compariong passowed
+// let comparePassword = await bcrypt.compare(
+//             password ,
+//             finduser.password 
+//         )
+
+
+//Authentication -> it is the process of verifying the identity of a user
+//user comes he gave all the credentials if correct then user is authenticated
+
+//Authorization -> it is the process of verifying the access of a user
+//staff room me student nahi ja sakta usko access nhi hai
+//admin room me admin hi ja sakta hai
+
+//user1 ko user2 ke blogs change krne k access nahi hai ..

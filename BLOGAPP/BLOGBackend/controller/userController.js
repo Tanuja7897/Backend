@@ -40,7 +40,6 @@ async function createUser(req, res) {
 }
 
 async function Login(req, res) {
-    console.log(req.body)
     let { email, password } = req.body
     try {
         if (!email || !password) {
@@ -55,6 +54,17 @@ async function Login(req, res) {
             return res.status(400).json({
                 message: "Please signin first"
             })
+        }
+
+        let comparePassword = await bcrypt.compare(
+            password ,
+            finduser.password 
+        )
+        if(!comparePassword){
+           return res.status(200).json({
+            success: true,
+            message: "incorrect password"
+            })   
         }
         res.status(200).json({
             success: true,
