@@ -12,3 +12,13 @@
 //5. we compare the hashed password with the hashed password in database
 //6. if it matches we login the user
 //7. if it does not match we show error message
+
+//go to controller folder and inside user we hash the password before saving it to database
+
+//hema1234
+//$2b$10$xMhryquiHO5mhwbxZuxzyOv25HmEyMzv0MIm0hcS0H.4Yz3HKiwA2
+
+//Systax ->
+//await bcrypt.hash(password , 10)
+//10 is salt
+//salt is used to tell -> how many times we hash the password
