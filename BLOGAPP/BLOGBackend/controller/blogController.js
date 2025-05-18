@@ -26,7 +26,10 @@ async function createBlog(req , res){
 }
 async function getBlog(req , res){
     try{
-        let blog = await Blog.find({draft : false}) //only public blog
+        let blog = await Blog.find({draft : false}).populate({
+            path : "creator",
+            select : "-password"
+        }) //only public blog
         return res.status(200).json({blog});
     }catch(err){
         return res.status(500).json({

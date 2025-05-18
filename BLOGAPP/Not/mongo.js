@@ -18,3 +18,19 @@
 //On array 
 //$push -> append specified value in array
 //syntax -> $push : {blogs : blog._id}
+
+//popolate function
+//like in schema hmne likha h creator ki id
+//but hme chahiye name to populate function use krenge ye function pure detail ki id se replace kr dega
+//isse getBlog ke output me blog with creator info ayegi n kevl id ..
+//Systeax ->
+//let blog = await Blog.find({draft : false}).populate("creator") 
+//whole info including user password goes to frontend 
+//if we want selected fields on frontend
+//      .populate({
+            //     path : "creator",
+            //     select : "name"
+            // }) 
+
+//sb chahiye only password nhi chahiye 
+ //select : "-password"
