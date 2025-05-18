@@ -25,10 +25,14 @@ async function createUser(req, res) {
             name,
             email,
             password: hashPassword
-        });
+        }) //user se password hta diye then res frontend pe pass kr rhe h
         res.status(200).json({
             success: true,
-            message: "Created successfully"
+            message: "Created successfully",
+            user : {
+                name : newUser.name,
+                blogs : newUser.blogs
+            }
         })
     } catch (err) {
         res.status(500).json({
@@ -68,7 +72,8 @@ async function Login(req, res) {
         }
         res.status(200).json({
             success: true,
-            message: "user profile"
+            message: "Login successfully",
+            user : finduser
         })
 
     } catch (err) {
