@@ -1,6 +1,6 @@
 let User = require("../models/user")
 const bcrypt = require("bcrypt");
-
+let {JwtToken , verifyJWT} = require("../utils/JwtToken")
 async function createUser(req, res) {
     let { name, email, password } = req.body
     try {
@@ -20,19 +20,24 @@ async function createUser(req, res) {
         }
 
         const hashPassword = await bcrypt.hash(password, 10)
-
+        
         const newUser = await User.create({
             name,
             email,
             password: hashPassword
         }) //user se password hta diye then res frontend pe pass kr rhe h
+
+        //payload passing in jwttoken function
+        let token = await JwtToken({email : newUser.email , id : newUser.id})
+
         res.status(200).json({
             success: true,
             message: "Created successfully",
             user : {
                 name : newUser.name,
                 blogs : newUser.blogs
-            }
+            },
+            token //also return jwt token
         })
     } catch (err) {
         res.status(500).json({

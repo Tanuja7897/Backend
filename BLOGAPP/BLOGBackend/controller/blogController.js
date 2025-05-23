@@ -1,7 +1,16 @@
 let Blog = require("../models/blog");
 const User = require("../models/user");
+let {verifyJWT} = require("../utils/JwtToken")
 async function createBlog(req , res){
     try{
+        //checiing of signin of user
+        let isvalid = await verifyJWT(req.body.token)
+        if(!isvalid){
+            return res.status(400).json({
+                message : "Please signin again" ,
+                success : false 
+            })
+        }
         //if draft == true means it is private to author
         //creator will be id only not a name 
         //we check that creator's id exist or not
