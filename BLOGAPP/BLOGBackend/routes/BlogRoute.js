@@ -1,8 +1,9 @@
 const express = require('express');
 const { createBlog, getBlog, getByIdBlog, updateBlog, deleteBlog } = require('../controller/blogController');
+const verifyUser = require('../middlewares/auth');
 const route = express.Router(); 
 
-route.post("/blogs" , createBlog)
+route.post("/blogs" ,verifyUser, createBlog)
 
 //get if only draft == false
 route.get("/blogs" , getBlog)

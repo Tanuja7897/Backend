@@ -35,9 +35,10 @@ async function createUser(req, res) {
             message: "Created successfully",
             user : {
                 name : newUser.name,
-                blogs : newUser.blogs
+                email : newUser.email,
+                blogs : newUser.blogs,
+                token //also return jwt token
             },
-            token //also return jwt token
         })
     } catch (err) {
         res.status(500).json({

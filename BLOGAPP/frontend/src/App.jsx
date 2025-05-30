@@ -1,47 +1,21 @@
 import { useState } from 'react'
 import './App.css'
-import { useEffect } from 'react'
-
+import { Route ,Routes } from 'react-router-dom'
+import Blog from './components/blog'
+import CreateBlog from './components/createBlog'
+import Signin from './pages/signin'
+import Signup from './pages/signup'
 function App() {
-  const [userData, setUserData] = useState({
-    name:"" , 
-    email :"" , 
-    password :""})
-  //for blog
-  const [blog , setBlog] = useState([])
-  async function handleSubmit(){
-    let data = await fetch(
-      'http://localhost:3000/api/v1/users', //versoning
-      {
-        method :'POST',
-        body : JSON.stringify(userData),
-        headers:{
-          "Content-Type" : "application/json"
-        }
-      }
-    )
-    //ye resut backend se arha h
-
-    let res = await data.json()
-    alert(res.message);
-  }
-
-  useEffect(()=>{
-    handleBlog()
-  },[])
-  return (
-    
-    <>
-      <h1>Sign UP</h1>
-      <input type="Name" placeholder='Name' onChange={(e) => setUserData((prev) => ({...prev , name:e.target.value}))}/>
-      <br /><br />
-      <input type="email" placeholder='email' onChange={(e) => setUserData((prev) => ({...prev , email:e.target.value}))}/>
-      <br /> <br />
-      <input type="Password" placeholder='Password' onChange={(e) => setUserData((prev) => ({...prev , password:e.target.value}))}/>
-      <br /><br />
-      <button onClick={handleSubmit}>Submit</button>
-    </>
-  )
+  return(<>
+    <Routes>
+      <Route path='/' element={<Blog/>}></Route>
+      <Route path='signin' element={<Signin/>}></Route>
+      <Route path='signup' element={<Signup/>}></Route>
+      <Route path='blog' element={<Blog/>}></Route>
+      <Route path='create-blog' element={<CreateBlog/>}></Route>
+      <Route path="*" element={<p>Not Found</p>}></Route>
+    </Routes>
+  </>)
 }
 
 export default App

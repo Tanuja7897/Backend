@@ -69,9 +69,9 @@
 //3 methos here
 //1. sign -> it will take the data and generate a token
 //2. decode -> if data is valid then give you decoded data otherwise give you error
-//3. verify -> it will take the token and verify it ...only say yes or no
+//3. verify -> it will take the token and verify it ...only say yes or no ...must write try and catch block
 //Syntax sign
-//data can be apssed through body , header , and ..
+//data can be apssed through body , header , and cookeis
 //taken payload + secret key
 //let token = await jwt.sign(payload,"yhasecretkeydetehaijissetokwngeneratehoga")
 
@@ -80,6 +80,19 @@
 //jwt.verify(token , "yhasecretkeydetehaijissetokwngeneratehoga") 
 //go to blog constorll to see usages
 
-//decode\
+//     jwt
+//i have removed this part after middleware
+//let isvalid = await verifyJWT(req.body.token)
+        // if(!isvalid){
+        //     return res.status(400).json({
+        //         message : "Please signin again" ,
+        //         success : false 
+        //     })
+        // }
+
+
+
+
+
 
 
