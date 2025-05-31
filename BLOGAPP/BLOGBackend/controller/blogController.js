@@ -8,7 +8,14 @@ async function createBlog(req , res){
         //if draft == true means it is private to author
         //creator will be id only not a name 
         //we check that creator's id exist or not
-        const {title , description ,draft , creator} = req.body ;
+
+        //passing token through body
+        // const {title , description ,draft , creator} = req.body ;
+
+        //passing token through header
+        const {title , description ,draft} = req.body ;
+        const creator = req.headers.authorization; //token will be passed in header
+
         if(!title || !description)
             return res.status(400).json({"message" : "please fill all required fields"})
         const findUser = await User.findById(creator)

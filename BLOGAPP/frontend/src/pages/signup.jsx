@@ -7,8 +7,6 @@ function signup() {
         email: "",
         password: ""
     })
-    //for blog
-    const [blog, setBlog] = useState([])
     async function handleSubmit() {
         let data = await fetch(
             'http://localhost:3000/api/v1/users', //versoning
@@ -31,7 +29,7 @@ function signup() {
 
         <>
             <h1>Sign UP</h1>
-            <input type="Name" placeholder='Name' onChange={(e) => setUserData((prev) => ({ ...prev, name: e.target.value }))} />
+            <input type="text" placeholder='Name' onChange={(e) => setUserData((prev) => ({ ...prev, name: e.target.value }))} />
             <br /><br />
             <input type="email" placeholder='email' onChange={(e) => setUserData((prev) => ({ ...prev, email: e.target.value }))} />
             <br /> <br />
